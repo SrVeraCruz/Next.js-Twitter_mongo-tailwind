@@ -7,16 +7,24 @@ import Spinner from "@/components/spinner/Spinner";
 import UsernameForm from "@/components/usernameForm/UsernameForm";
 import useUserInfo from "@/hooks/useUserInfo";
 import axios from "axios";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
   const {userInfo, status} = useUserInfo()
   const [posts, setPosts] = useState([])
+  const [idsLikedByMe, setIdsLikedByMe] = useState([])
+  const [loadingPosts, setLoadingPosts] = useState('loading')
 
   const fetchPosts = async () => {
-    await axios.get('/api/posts')
+    if(!userInfo?._id) {
+      return
+    }
+    await axios.put('/api/posts', {userId: userInfo?._id})
       .then(res => {
         setPosts(res.data.postsData)
+        setIdsLikedByMe(res.data.idsLikedByMe)
+        setLoadingPosts('done')
       })
       .catch(err => {
         console.error(err.data)
@@ -25,7 +33,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchPosts()
-  }, [])
+  }, [userInfo?._id])
 
   if(status === 'loading') {
     return (
@@ -35,10 +43,15 @@ export default function Home() {
     )
   }
 
-  if(!userInfo?.username) {
+  
+  if(userInfo._id && !userInfo?.username) {
     return (
       <UsernameForm />
     )
+  }
+  
+  if(!userInfo._id) {
+    redirect('/login')
   }
 
   return (
@@ -46,10 +59,18 @@ export default function Home() {
       <h1 className="text-lg font-bold  p-4">Home</h1>
       <PostForm onPost={() => {fetchPosts()}} />
       <div>
-        {posts.length && (
+        {loadingPosts === 'loading' && (
+          <div className="flex items-center justify-center">
+            <Spinner />
+          </div>
+        )}
+        {!!posts.length && (
           posts.map(post => (
-            <div key={post._id} className="border-t border-twitterBorder p-5">
-              <PostContent {...post} />
+            <div key={post._id} className="border-t border-b border-twitterBorder p-5">
+              <PostContent 
+                {...post} 
+                likedByMe={idsLikedByMe.includes(post._id)}
+              />
             </div>
           ))
         )}

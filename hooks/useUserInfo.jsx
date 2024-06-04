@@ -15,6 +15,11 @@ export default function useUserInfo() {
       return
     }
 
+    if (!session?.user?.id) {
+      setStatus('unauthenticated')
+      return 
+    }
+
     await axios.get(`/api/users?id=${session?.user.id}`)
     .then(res => {
       setUserInfo(res.data.UserDoc)
@@ -29,5 +34,5 @@ export default function useUserInfo() {
     getUserInfo()
   }, [sessionStatus])
 
-  return {userInfo, status}
+  return {userInfo, status, setUserInfo}
 }

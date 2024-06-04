@@ -8,7 +8,6 @@ import { useEffect, useState } from "react"
 export default function page() {
   const [providers, setProviders] = useState([])
   const { data, status } = useSession()
-  // console.log(data, status)
 
   const getProviders = async () => {
     await axios.get('/api/providers')

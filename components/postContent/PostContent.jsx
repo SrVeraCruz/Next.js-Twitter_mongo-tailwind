@@ -3,7 +3,17 @@ import Avatar from "../avatar/Avatar";
 import Link from "next/link";
 import PostButtons from "../postButtons/PostButons";
 
-export default function PostContent({text, author, createdAt, _id, big=false}) {
+export default function PostContent({
+  text, 
+  author, 
+  createdAt, 
+  _id, 
+  likesCount, 
+  likedByMe,
+  commentsCount,
+  big=false
+}) {
+
   return (
     <div>
       <div className="flex gap-2 text-sm w-full">
@@ -35,10 +45,18 @@ export default function PostContent({text, author, createdAt, _id, big=false}) {
             <div>
               <div className="my-0.5 mb-2">
                 <Link href={`/${author?.username}/status/${_id}`}>
-                  {text}
+                  <div className="w-full">
+                    {text}
+                  </div>
                 </Link>
               </div>
-              <PostButtons />
+              <PostButtons 
+                big={big} 
+                postId={_id} 
+                likesCount={likesCount}
+                likedByMe={likedByMe}
+                commentsCount={commentsCount}
+              />
             </div>
           )}
         </div>
@@ -73,7 +91,13 @@ export default function PostContent({text, author, createdAt, _id, big=false}) {
           </div>
 
           <div className="border-t border-b border-twitterBorder py-3">
-            <PostButtons big />
+            <PostButtons 
+              big={big} 
+              postId={_id}
+              likesCount={likesCount} 
+              likedByMe={likedByMe}
+              commentsCount={commentsCount}
+            />
           </div>
         </div>
 
