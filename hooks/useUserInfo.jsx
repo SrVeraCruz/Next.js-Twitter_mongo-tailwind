@@ -9,7 +9,6 @@ export default function useUserInfo() {
   const [userInfo, setUserInfo] = useState({})
   const [status, setStatus] = useState('loading')
 
-  
   const getUserInfo = async () => {
     if (sessionStatus === 'loading') {
       return
@@ -22,7 +21,7 @@ export default function useUserInfo() {
 
     await axios.get(`/api/users?id=${session?.user.id}`)
     .then(res => {
-      setUserInfo(res.data.UserDoc)
+      setUserInfo(res.data.userDoc)
       setStatus('done')
     })
     .catch(err => {

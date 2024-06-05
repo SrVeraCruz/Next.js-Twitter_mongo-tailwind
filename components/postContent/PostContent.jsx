@@ -17,18 +17,18 @@ export default function PostContent({
   return (
     <div>
       <div className="flex gap-2 text-sm w-full">
-        <div>
+        <Link href={'/'+author?.username}>
           <Avatar src={author?.image} />
-        </div>
+        </Link>
         <div className="grow">
           <div>
-            <span className="font-bold pr-1">
+            <Link href={'/'+author?.username} className="font-bold pr-1 hover:underline">
               {author?.name}
-            </span>
+            </Link>
             {big && <br />}
-            <span className="text-twitterLightGray">
+            <Link href={'/'+author?.username} className="text-twitterLightGray">
               @{author?.username}
-            </span>
+            </Link>
             <span className="text-twitterLightGray pl-1">
               {createdAt && !big && (
                 <div className="inline-block">
@@ -53,6 +53,7 @@ export default function PostContent({
               <PostButtons 
                 big={big} 
                 postId={_id} 
+                username={author?.username}
                 likesCount={likesCount}
                 likedByMe={likedByMe}
                 commentsCount={commentsCount}
@@ -94,6 +95,7 @@ export default function PostContent({
             <PostButtons 
               big={big} 
               postId={_id}
+              username={author?.username}
               likesCount={likesCount} 
               likedByMe={likedByMe}
               commentsCount={commentsCount}

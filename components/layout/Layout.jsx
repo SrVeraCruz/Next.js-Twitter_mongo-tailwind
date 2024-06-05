@@ -5,7 +5,7 @@ export default function Layout({children}) {
     <div className="flex">
       <Aside />
       <div 
-        className="max-w-lg border-l border-r border-twitterBorder min-h-screen grow"
+        className="max-w-[38rem] border-l border-r border-twitterBorder min-h-screen grow"
       >
         {children}
       </div>

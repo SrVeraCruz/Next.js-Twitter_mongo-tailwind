@@ -11,6 +11,7 @@ module.exports = {
         twitterWhite: '#e8eaeb',
         twitterBlue: '#308cd8',
         twitterRose: '#fa1982',
+        twitterPurple: '#c935cc',
         twitterGreen: '#00ba7c',
         twitterBorder: '#2f3336',
         twitterLightGray: '#71767b',

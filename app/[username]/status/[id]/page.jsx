@@ -6,9 +6,9 @@ import Spinner from "@/components/spinner/Spinner";
 import useUserInfo from "@/hooks/useUserInfo";
 import axios from "axios";
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import PostForm from "@/components/postForm/PostForm";
+import TopNavLink from "@/components/nav/TopNavLink";
 
 export default function PostPage({params}) {
   const { id } = params;
@@ -73,14 +73,7 @@ export default function PostPage({params}) {
       }
       {post && (
         <div>
-          <Link href={'/'} 
-            className="flex items-center gap-10 font-bold text-lg sticky left-0 top-0 py-3 px-4 bg-black/75 backdrop-blur-md"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="size-4">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-            </svg>
-            Post
-          </Link>
+          <TopNavLink />
           <div className="p-4 pt-0.5 pb-1">
             <div className="mt-4">
               <PostContent 

@@ -10,10 +10,9 @@ export default function Aside() {
     await signOut()
   }
 
-
   return (
-    <aside className="grow-[0.1] flex justify-end py-2 px-2.5 ">
-      <div className="flex flex-col align-center mr-0">
+    <aside className="grow-[0.15] flex justify-end py-2 px-2.5 relative min-w-16">
+      <div className="flex flex-col align-center mr-auto fixed">
         <div className="w-10 h-10">
           <Link href={'/'} >
             <img src="/twitter-logo.svg" alt="twitter" 

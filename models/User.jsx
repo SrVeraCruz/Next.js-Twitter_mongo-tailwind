@@ -3,8 +3,11 @@ import { Schema, models, model } from "mongoose";
 const UserSchema = new Schema({
   name: String,
   email: String,
-  image: String,
   username: String,
+  image: String,
+  cover: String,
+  bio: String,
+  postsCount: {type: Number, default: 0},
 }, {
   timestamps: true
 })

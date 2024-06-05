@@ -1,6 +1,7 @@
-export default function Avatar({src}) {
+export default function Avatar({src, big}) {
+  const withClass = big ? 'size-[8rem]' : 'size-10'
   return(
-    <div className="w-10 h-10 rounded-full overflow-hidden">
+    <div className={"rounded-full overflow-hidden "+ withClass}>
       <img 
         src={src} 
         alt="avatar"

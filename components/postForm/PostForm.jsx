@@ -2,6 +2,7 @@ import useUserInfo from "@/hooks/useUserInfo"
 import axios from "axios"
 import { useState } from "react"
 import Avatar from "../avatar/Avatar"
+import Link from "next/link"
 
 export default function PostForm({
   onPost, 
@@ -9,7 +10,7 @@ export default function PostForm({
   placeholder="What's happening",
   parent
 }) {
-  const {userInfo, status} = useUserInfo()
+  const {userInfo, status} = useUserInfo({})
   const [text, setText] = useState('')
 
   const handlePost = async (ev) => {
@@ -34,7 +35,9 @@ export default function PostForm({
   return (
     <form onSubmit={handlePost} className="px-4">
       <div className={(compact ? 'items-center' : '')+" flex"}>
-        <Avatar src={userInfo?.image} />
+        <Link href={'/'+userInfo?.username} >
+          <Avatar src={userInfo?.image} />
+        </Link>
         <div className={(compact ? 'mr-2' : '')+" grow pl-2"}>
           <textarea 
             className={(compact ? 'h-10 mt-1' : '')+" w-full p-2 bg-transparent outline-none"} 

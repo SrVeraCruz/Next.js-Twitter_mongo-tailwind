@@ -44,13 +44,13 @@ export default function Home() {
   }
 
   
-  if(userInfo._id && !userInfo?.username) {
+  if(userInfo?._id && !userInfo?.username) {
     return (
       <UsernameForm />
     )
   }
   
-  if(!userInfo._id) {
+  if(!userInfo?._id) {
     redirect('/login')
   }
 

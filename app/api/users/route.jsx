@@ -7,10 +7,19 @@ export async function GET(req) {
 
   const url = new URL(req.url);
   const id = url.searchParams.get('id');
+  const username = url.searchParams.get('username');
 
-  const UserDoc = await User.findById(id)
+  if(id && id !== '') {
+    const userDoc = await User.findById(id)
 
-  return NextResponse.json({UserDoc})
+    return NextResponse.json({userDoc})
+  } else if(username && username !== '') {
+    const userDoc = await User.find({username}).limit(1)
+
+    return NextResponse.json({userDoc})
+  }
+  
+  return NextResponse.json(null)
 }
 
 export async function PUT(req) {
