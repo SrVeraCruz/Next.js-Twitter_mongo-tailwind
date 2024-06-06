@@ -16,7 +16,12 @@ export async function PUT(req) {
   const { userId } = data
   
   if(id && id !== '') {
-    const postData = await Post.findById(id).populate('author')
+    const postData = await Post.findById(id)
+    .populate('author')
+    .populate({
+      path: 'parent',
+      populate: 'author'
+    })
 
     const postLikedByMe = await Like.find({
       author: userId,
@@ -30,7 +35,8 @@ export async function PUT(req) {
       idLikedByMe
     })
   } else if(author && author !== '') { 
-    const postsData = await Post.find({author, parent: null}).populate('author')
+    const postsData = await Post.find({author, parent: null})
+      .populate('author')
 
     const postsLikedByMe = await Like.find({author: userId})
     const idsLikedByMe = postsLikedByMe.map(pl => pl.post)
@@ -56,6 +62,10 @@ export async function PUT(req) {
     .sort({createdAt: -1})
     .limit(20)
     .populate('author')
+    .populate({
+      path: 'parent',
+      populate: 'author'
+    })
     
     const postsLikedByMe = await Like.find({
       author: userId,
@@ -77,11 +87,12 @@ export async function POST(req) {
   await mongooseConnect()
 
   const data = await req.json()
-  const { author, text, parent } = data
+  const { author, text, images, parent } = data
 
   await Post.create({
     author,
     text,
+    images,
     parent
   })
 

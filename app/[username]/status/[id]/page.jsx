@@ -76,6 +76,9 @@ export default function PostPage({params}) {
           <TopNavLink />
           <div className="p-4 pt-0.5 pb-1">
             <div className="mt-4">
+              {post?.parent && (
+                <PostContent {...post?.parent} extend />
+              )}
               <PostContent 
                 {...post} 
                 big 

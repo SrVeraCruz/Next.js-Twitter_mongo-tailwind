@@ -23,8 +23,8 @@ export default function EditableImage({
 
   const updateImage = async (files, ev) => {
     ev.preventDefault()
-    setIsFileNearby(false)
-    setIsFileOver(false)
+    // setIsFileNearby(false)
+    // setIsFileOver(false)
     setUploadingStatus('uploading')
 
     const imageSrc = await saveImage(files[0])

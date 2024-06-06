@@ -1,7 +1,7 @@
 const { MoonLoader } = require("react-spinners");
 
-export default function Spinner() {
+export default function Spinner({color="#308cd8"}) {
   return (
-    <MoonLoader color="#308cd8" size={20} />
+    <MoonLoader color={color} size={20} />
   )
 }
