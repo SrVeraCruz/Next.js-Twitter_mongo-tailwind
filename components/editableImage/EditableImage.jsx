@@ -5,28 +5,33 @@ import { useState } from "react";
 import { FileDrop } from "react-file-drop";
 import Spinner from "../spinner/Spinner";
 
-export default function Cover({userId=null, src=''}) {
+export default function EditableImage({
+  userId=null, 
+  src='', 
+  className="",
+  type,
+  editable=false
+}) {
   const [isFileNearby, setIsFileNearby] = useState(false)
   const [isFileOver, setIsFileOver] = useState(false)
   const [uploadingStatus, setUploadingStatus] = useState('')
-  const [cover, setCover] = useState(src)
+  const [image, setImage] = useState(src)
   
   let dragStyle = ''
   if(isFileNearby) dragStyle += ' bg-blue-500/30';
-  if(isFileOver) dragStyle += ' bg-blue-500/50 border-2 border-dashed border-twitterBlue';
+  if(isFileOver) dragStyle += ' bg-blue-500/50 border-2 border-dashed !border-twitterBlue';
 
-  const updateCover = async (files, ev) => {
+  const updateImage = async (files, ev) => {
     ev.preventDefault()
     setIsFileNearby(false)
     setIsFileOver(false)
     setUploadingStatus('uploading')
 
-    const coverImage = await saveCoverImage(files[0])
-    await axios.post('/api/uploads', {userId, cover: coverImage})
+    const imageSrc = await saveImage(files[0])
+    await axios.post('/api/uploads', {userId, [type]: imageSrc})
       .then(res => {
-        setCover(res.data.cover)
+        setImage(res.data?.[type])
         setUploadingStatus('done')
-        console.log(res.data)
       })
       .catch(err => {
         console.error(err.message)
@@ -34,7 +39,7 @@ export default function Cover({userId=null, src=''}) {
     
   }
 
-  const saveCoverImage = async (file) => {
+  const saveImage = async (file) => {
     const data = new FormData()
     data.append('file', file)
     data.append('upload_preset', process.env.NEXT_PUBLIC_UPLOAD_PRESET)
@@ -48,38 +53,56 @@ export default function Cover({userId=null, src=''}) {
       })
   }
 
-  if(!userId) {
+
+  if(!editable) {
     return (
-      <div className={"h-48 bg-twitterBorder "}>
-        {cover && (
-          <div className="h-full w-full">
-            <img className="h-full w-full object-cover" src={cover} alt="cover" />
+      <div className={"bg-twitterBorder "+className}>
+        {image && (
+          <div className={"h-full w-full flex items-center justify-center "}>
+            <img className="h-full w-full object-cover" src={image} alt={type} />
           </div>
         )}
       </div>
     )
   }
-
+  
   return (
     <FileDrop 
-      onDrop={updateCover}
+      onDrop={updateImage}
       onDragOver={() => setIsFileOver(true)}
       onDragLeave={() => setIsFileOver(false)}
       onFrameDragEnter={() => setIsFileNearby(true)}
       onFrameDragLeave={() => setIsFileNearby(false)}
+      onFrameDrop={() => {
+        setIsFileNearby(false)
+        setIsFileOver(false)
+      }}
     >
-      <div className={"h-48 overflow-hidden relative bg-twitterBorder "+dragStyle}>
+      <div 
+        className={"overflow-hidden relative flex items-center justify-center bg-twitterBorder group border-2 border-black "+dragStyle+" "+className}
+      >
+        <div 
+          className={"absolute inset-0 opacity-0 group-hover:opacity-90 flex items-center justify-center gap-2 transition"}
+        >
+          {uploadingStatus !== (
+            <button 
+              className="p-2 h-10 bg-twitterBorder rounded-full border border-twitterWhite"
+            >
+              <img src="/drag-drop.png" className="h-full w-full" alt="drag-drop" />
+            </button>
+          )}
+        </div>
         <div className={"absolute inset-0 opacity-70 "+dragStyle}></div>
         {uploadingStatus === 'uploading' && (
-          <div className="flex items-center justify-center h-full relative">
+          <div className="flex items-center justify-center h-full absolute inset-0">
             <div className={"absolute inset-0 opacity-70 bg-blue-500/50"}></div>
             <Spinner />
           </div>
         )}
   
-        {src && (
+        {image && (
           <div className="h-full w-full">
-            <img className="h-full w-full object-cover" src={cover} alt="cover" />
+            <img className="h-full w-full object-cover" src={image} alt={type} />
           </div>
         )}
       </div>

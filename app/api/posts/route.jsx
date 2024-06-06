@@ -3,6 +3,7 @@ import { mongooseConnect } from "@/lib/mongoose"
 import Like from "@/models/Like"
 import Post from "@/models/Post"
 import User from "@/models/User"
+import Follow from "@/models/Follow"
 
 export async function PUT(req) {
   await mongooseConnect()
@@ -39,8 +40,19 @@ export async function PUT(req) {
       idsLikedByMe
     })
   } else {
+    let serchFilter
     const parent = url.searchParams.get('parent') || null
-    const postsData = await Post.find({parent})
+    if(!parent) {
+      const myFollows = await Follow.find({source: userId})
+      const idsMyFollows = myFollows.map(mf => mf.destination)
+      serchFilter = {author: [...idsMyFollows, userId]}
+    }
+
+    if(parent) {
+      serchFilter = {parent}
+    }
+
+    const postsData = await Post.find(serchFilter)
     .sort({createdAt: -1})
     .limit(20)
     .populate('author')

@@ -11,7 +11,7 @@ export default function Aside() {
   }
 
   return (
-    <aside className="grow-[0.15] flex justify-end py-2 px-2.5 relative min-w-16">
+    <aside className="flex justify-end py-2 px-2.5 relative min-w-16">
       <div className="flex flex-col align-center mr-auto fixed">
         <div className="w-10 h-10">
           <Link href={'/'} >
