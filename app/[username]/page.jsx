@@ -51,7 +51,6 @@ export default function UserPage({params}) {
       .then(res => {
         setProfilePosts(res.data.postsData)
         setIdsLikedByMe(res.data.idsLikedByMe)
-        console.log(res.data)
         setProfilePostsStatus('done')
       })
       .catch(err => {

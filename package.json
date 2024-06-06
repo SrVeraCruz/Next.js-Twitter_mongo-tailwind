@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.1.0",
-    "@supabase/supabase-js": "^2.43.4",
     "axios": "^1.7.2",
     "javascript-time-ago": "^2.5.10",
     "mongodb": "^6.7.0",
