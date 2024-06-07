@@ -33,7 +33,7 @@ export default function page() {
 
   return (
     <div className="flex items-center justify-center h-screen">
-      {Object.values(providers).map((provider,key) => (
+      {/* {Object.values(providers).map((provider,key) => (
         <div key={key}>
           <button 
             className="bg-twitterWhite text-black pl-3 pr-5 py-2 rounded-full flex items-center gap-1"
@@ -45,7 +45,19 @@ export default function page() {
             Sign in with {provider?.name}
           </button>
         </div>
-      ))}
+      ))} */}
+
+      <div>
+        <button 
+          className="bg-twitterWhite text-black pl-3 pr-5 py-2 rounded-full flex items-center gap-1"
+          onClick={ async () => await signIn("google")}
+        >
+          <img src="/google_icon.png" alt="google_icon" 
+            className="w-8 h-8" 
+          />
+          Sign in with Google
+        </button>
+      </div>
     </div>
   )
 }
