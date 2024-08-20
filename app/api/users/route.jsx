@@ -8,6 +8,7 @@ export async function GET(req) {
 
   const url = new URL(req.url);
   const id = url.searchParams.get('id');
+  const userId = url.searchParams.get('userId')
   const source = url.searchParams.get('source');
   const username = url.searchParams.get('username');
 
@@ -20,6 +21,15 @@ export async function GET(req) {
     const followingByMe = await Follow.findOne({source, destination:userDoc?._id})
 
     return NextResponse.json({userDoc, followingByMe})
+  } else if(userId && userId !== '') {
+    const myFollows = await Follow.find({source: userId})
+    const idsMyFollows = myFollows.map(mf => mf.destination)
+
+    const usersDoc = await User.find({
+      _id: { $nin: [...idsMyFollows, userId] }
+    }).limit(3);
+    
+    return NextResponse.json({usersDoc})
   }
   
   return NextResponse.json(null)

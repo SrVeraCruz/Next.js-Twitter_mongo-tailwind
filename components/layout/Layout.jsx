@@ -1,4 +1,5 @@
 import Aside from "../aside/Aside";
+import WhoToFollow from "../whoToFollow/WhoToFollow";
 
 export default function Layout({children}) {
   return (
@@ -9,6 +10,7 @@ export default function Layout({children}) {
       >
         {children}
       </div>
+      <WhoToFollow />
     </div>
   )
 }

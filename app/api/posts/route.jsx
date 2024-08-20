@@ -51,7 +51,12 @@ export async function PUT(req) {
     if(!parent) {
       const myFollows = await Follow.find({source: userId})
       const idsMyFollows = myFollows.map(mf => mf.destination)
-      serchFilter = {author: [...idsMyFollows, userId]}
+
+      if(idsMyFollows.length === 0) {
+        serchFilter = {}
+      } else {
+        serchFilter = {author: [...idsMyFollows, userId]}
+      }
     }
 
     if(parent) {
