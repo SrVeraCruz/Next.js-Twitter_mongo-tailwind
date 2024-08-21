@@ -1,15 +1,16 @@
 'use client'
 
-import Avatar from "@/components/avatar/Avatar"
-import Layout from "@/components/layout/Layout"
-import TopNavLink from "@/components/nav/TopNavLink"
-import PostContent from "@/components/postContent/PostContent"
-import Cover from "@/components/cover/Cover"
-import Spinner from "@/components/spinner/Spinner"
-import useUserInfo from "@/hooks/useUserInfo"
+import Avatar from "../../components/avatar/Avatar"
+import Layout from "../../components/layout/Layout"
+import PostContent from "../../components/postContent/PostContent"
+import TopNavLink from "../../components/nav/TopNavLink"
+import Cover from "../../components/cover/Cover"
+import Spinner from "../../components/spinner/Spinner"
+import useUserInfo from "../../hooks/useUserInfo"
 import axios from "axios"
 import { redirect } from "next/navigation"
 import { useEffect, useState } from "react"
+import FollowButton from "../../components/followButton/FollowButton"
 
 export default function UserPage({params}) {
   const { username } = params
@@ -86,24 +87,24 @@ export default function UserPage({params}) {
     }))
   }
 
-  const toogleFollow = () => {
-    if(!profileInfo?._id || !userInfo?._id) {
-      return
-    }
+  // const toogleFollow = () => {
+  //   if(!profileInfo?._id || !userInfo?._id) {
+  //     return
+  //   }
 
-    const data = {source: userInfo?._id, destination: profileInfo?._id}
-    axios.post('api/follows', data)
-      .then(res => {
-        if(res.data?.followDoc) {
-          setIsFollowing(true)
-        } else {
-          setIsFollowing(false)
-        }
-      })
-      .catch(err => {
-        console.error(err.data)
-      })
-  }
+  //   const data = {source: userInfo?._id, destination: profileInfo?._id}
+  //   axios.post('api/follows', data)
+  //     .then(res => {
+  //       if(res.data?.followDoc) {
+  //         setIsFollowing(true)
+  //       } else {
+  //         setIsFollowing(false)
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.error(err.data)
+  //     })
+  // }
 
   useEffect(() => {
     fetchProfileInfo()
@@ -141,8 +142,12 @@ export default function UserPage({params}) {
 
   return (
     <div>
-      <Layout>
-        <TopNavLink title={profileInfo?.name} desc={profileInfo?.postsCount} />
+      <Layout> 
+        <TopNavLink 
+          title={profileInfo?.name} 
+          desc={profileInfo?.postsCount} 
+          extend 
+        />
         <div className="border-b border-twitterBorder">
           <Cover 
             editable={isMyProfile}
@@ -206,12 +211,12 @@ export default function UserPage({params}) {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
                     </svg>
                   </button>
-                  <button 
-                    onClick={() => toogleFollow()}
-                    className={(isFollowing ? 'text-twitterWhite bg-black border border-twitterWhite' : 'bg-twitterWhite text-black')+" p-2 px-4 rounded-full  font-semibold text-sm"}
-                  >
-                    {isFollowing ? 'Unfollow' : 'Follow'}
-                  </button>
+                  <FollowButton 
+                    profileId={profileInfo._id} 
+                    userId={userInfo._id} 
+                    setIsFollowing={setIsFollowing} 
+                    isFollowing={isFollowing} 
+                  />
                 </div>
               )}
             </div>

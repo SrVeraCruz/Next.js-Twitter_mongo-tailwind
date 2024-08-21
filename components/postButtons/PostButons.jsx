@@ -1,4 +1,4 @@
-import useUserInfo from "@/hooks/useUserInfo"
+import useUserInfo from "../../hooks/useUserInfo"
 import axios from "axios"
 import Link from "next/link"
 import { useState } from "react"
@@ -60,7 +60,7 @@ export default function PostButtons({
           />
         </span>
       </Link>
-      <button className="flex gap-1 items-center hover:text-twitterGreen group">
+      {/* <button className="flex gap-1 items-center hover:text-twitterGreen group">
         <div className={"relative w-6 h-6 "+(!big ? '-ml-2.5' : '')}>
           <div 
             className={(big ? '-top-[0.45rem] -left-0.5' : '-top-[0.3rem] left-0.5')+" absolute group-hover:bg-twitterGreen/10 group-hover:text-twitterGreen  transition-all duration-200 ease-in-out rounded-full p-2"}
@@ -79,7 +79,7 @@ export default function PostButtons({
             numbers={'0'} 
           />
         </span>
-      </button>
+      </button> */}
       <button 
         className={(likedByMe ? 'fill-twitterRose text-twitterRose' : '')+" flex gap-1 items-center hover:text-twitterRose group"} 
         onClick={handleToggleLike}
@@ -101,7 +101,7 @@ export default function PostButtons({
           />
         </span>
       </button>
-      {big 
+      {/* {big 
       ? <button className="flex gap-1 items-center hover:text-twitterBlue group">
           <div className={"relative w-6 h-6 "+(!big ? '-ml-2.5' : '')}>
             <div 
@@ -144,9 +144,9 @@ export default function PostButtons({
             />
           </span>
         </button>
-      }
+      } */}
       
-      <div className="flex gap-3">
+      {/* <div className="flex gap-3">
         {!big && (
           <button className="flex gap-1 items-center hover:text-twitterBlue group">
             <div className={"relative w-6 h-6 "+(!big ? '-ml-2.5' : '')}>
@@ -174,7 +174,7 @@ export default function PostButtons({
             </div>
           </div>
         </button>
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -1,14 +1,14 @@
 'use client'
 
-import Layout from "@/components/layout/Layout";
-import PostContent from "@/components/postContent/PostContent";
-import Spinner from "@/components/spinner/Spinner";
-import useUserInfo from "@/hooks/useUserInfo";
+import Layout from "../../../../components/layout/Layout";
+import PostContent from "../../../../components/postContent/PostContent";
+import Spinner from "../../../../components/spinner/Spinner";
+import useUserInfo from "../../../../hooks/useUserInfo";
 import axios from "axios";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
-import PostForm from "@/components/postForm/PostForm";
-import TopNavLink from "@/components/nav/TopNavLink";
+import PostForm from "../../../../components/postForm/PostForm";
+import TopNavLink from "../../../../components/nav/TopNavLink";
 
 export default function PostPage({params}) {
   const { id } = params;

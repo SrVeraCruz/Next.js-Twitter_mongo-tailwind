@@ -1,6 +1,6 @@
-import { mongooseConnect } from "@/lib/mongoose";
-import Follow from "@/models/Follow";
-import User from "@/models/User";
+import { mongooseConnect } from "../../../lib/mongoose";
+import Follow from "../../../models/Follow";
+import User from "../../../models/User";
 import { NextResponse } from "next/server"
 
 export async function GET(req) {
@@ -8,7 +8,8 @@ export async function GET(req) {
 
   const url = new URL(req.url);
   const id = url.searchParams.get('id');
-  const userId = url.searchParams.get('userId')
+  const userId = url.searchParams.get('userId');
+  const explore = url.searchParams.get('explore');
   const source = url.searchParams.get('source');
   const username = url.searchParams.get('username');
 
@@ -24,10 +25,18 @@ export async function GET(req) {
   } else if(userId && userId !== '') {
     const myFollows = await Follow.find({source: userId})
     const idsMyFollows = myFollows.map(mf => mf.destination)
+    const limit = (explore && explore === '1') ? 20 : 3;
 
-    const usersDoc = await User.find({
-      _id: { $nin: [...idsMyFollows, userId] }
-    }).limit(3);
+    const usersDoc = await User.aggregate([
+      {
+        $match: {
+          _id: { $nin: [...idsMyFollows, userId] }
+        }
+      },
+      {
+        $sample: { size: limit }
+      }
+    ])
     
     return NextResponse.json({usersDoc})
   }

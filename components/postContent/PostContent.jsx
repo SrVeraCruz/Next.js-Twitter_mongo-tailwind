@@ -79,13 +79,13 @@ export default function PostContent({
               </span>
             </div>
 
-            <div className="relative">
+            {/* <div className="relative">
               <button className=" stroke-twitterLightGray hover:stroke-twitterBlue hover:bg-twitterBlue/10 p-1 absolute top-0 right-0 rounded-full transition">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6 stroke-inherit">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                 </svg>
               </button>
-            </div>
+            </div> */}
           </div>
           {!big && (
             <div className={(extend ? 'mb-5' : '')}>
@@ -136,10 +136,10 @@ export default function PostContent({
               </Link>
             )}
 
-          · <p>
+            {/* · <p>
               <span className="font-bold text-twitterWhite">0.0M</span>
               <span className="pl-1">View</span>
-            </p>
+            </p> */}
           </div>
 
           <div className="border-t border-b border-twitterBorder py-3">

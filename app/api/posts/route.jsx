@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server"
-import { mongooseConnect } from "@/lib/mongoose"
-import Like from "@/models/Like"
-import Post from "@/models/Post"
-import User from "@/models/User"
-import Follow from "@/models/Follow"
+import { mongooseConnect } from "../../../lib/mongoose"
+import Like from "../../../models/Like"
+import Post from "../../../models/Post"
+import User from "../../../models/User"
+import Follow from "../../../models/Follow"
 
 export async function PUT(req) {
   await mongooseConnect()
@@ -48,34 +48,44 @@ export async function PUT(req) {
   } else {
     let serchFilter
     const parent = url.searchParams.get('parent') || null
+    let postsData = []
+
     if(!parent) {
       const myFollows = await Follow.find({source: userId})
       const idsMyFollows = myFollows.map(mf => mf.destination)
+      
+      serchFilter = idsMyFollows.length === 0 
+      ? {} 
+      : { author: { $in: [...idsMyFollows, userId] }, parent: null };
 
-      if(idsMyFollows.length === 0) {
-        serchFilter = {}
-      } else {
-        serchFilter = {author: [...idsMyFollows, userId]}
-      }
+      const postsFetched = await Post.aggregate([
+        { $match: serchFilter },
+        { $sample: { size: 20 } }
+      ]);
+  
+      postsData = await Post.populate(postsFetched, [
+        { path: 'author' },
+        {
+          path: 'parent',
+          populate: { path: 'author' }
+        }
+      ])
+    } else {
+      serchFilter = { parent };
+      postsData = await Post.find(serchFilter)
+      .sort({createdAt: -1})
+      .limit(20)
+      .populate('author')
+      .populate({
+        path: 'parent',
+        populate: 'author'
+      })
     }
-
-    if(parent) {
-      serchFilter = {parent}
-    }
-
-    const postsData = await Post.find(serchFilter)
-    .sort({createdAt: -1})
-    .limit(20)
-    .populate('author')
-    .populate({
-      path: 'parent',
-      populate: 'author'
-    })
     
     const postsLikedByMe = await Like.find({
       author: userId,
-      post: postsData.map(p => p._id)
-    })
+      post: { $in: postsData.map((p) => p._id) }
+    });
     
     const idsLikedByMe = postsLikedByMe.map(pl => pl.post)
     

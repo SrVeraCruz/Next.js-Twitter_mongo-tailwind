@@ -1,11 +1,11 @@
 'use client'
 
-import Layout from "@/components/layout/Layout";
-import PostContent from "@/components/postContent/PostContent";
-import PostForm from "@/components/postForm/PostForm";
-import Spinner from "@/components/spinner/Spinner";
-import UsernameForm from "@/components/usernameForm/UsernameForm";
-import useUserInfo from "@/hooks/useUserInfo";
+import Layout from "../components/layout/Layout";
+import PostContent from "../components/postContent/PostContent";
+import PostForm from "../components/postForm/PostForm";
+import Spinner from "../components/spinner/Spinner";
+import UsernameForm from "../components/usernameForm/UsernameForm";
+import useUserInfo from "../hooks/useUserInfo";
 import axios from "axios";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";

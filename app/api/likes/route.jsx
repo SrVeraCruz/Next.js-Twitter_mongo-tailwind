@@ -1,6 +1,6 @@
-import { mongooseConnect } from "@/lib/mongoose";
-import Like from "@/models/Like";
-import Post from "@/models/Post";
+import { mongooseConnect } from "../../../lib/mongoose";
+import Like from "../../../models/Like";
+import Post from "../../../models/Post";
 import { NextResponse } from "next/server";
 
 const updateLikesCount = async (postId) => {

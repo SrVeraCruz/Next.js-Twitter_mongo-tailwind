@@ -1,4 +1,4 @@
-import useUserInfo from "@/hooks/useUserInfo"
+import useUserInfo from "../../hooks/useUserInfo"
 import axios from "axios"
 import { useState } from "react"
 import Avatar from "../avatar/Avatar"
