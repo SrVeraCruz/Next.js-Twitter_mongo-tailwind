@@ -1,4 +1,4 @@
-import Follow from "@/models/Follow";
+import Follow from "../../../models/Follow";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
